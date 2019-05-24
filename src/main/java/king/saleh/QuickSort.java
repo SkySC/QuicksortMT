@@ -1,12 +1,12 @@
 package king.saleh;
 
-final class QuickSort implements Sort {
+public final class QuickSort implements Sort {
 
     private QuickSort() {
 
     }
 
-    static Folge quicksort(Folge folge) {
+    public static Folge quicksort(Folge folge) {
         quicksort(folge, folge.getErsterIndex(), folge.getLetzterIndex());
         return folge;
     }

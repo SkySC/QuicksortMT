@@ -73,11 +73,4 @@ public class Main {
         System.out.println("\n==> " + (opt.equals("MT") ? "Multi" : "Single")
                 + " Thread time consumed: " + consumedTime + " ns ~ " + (consumedTime / 1000000) + " ms\n");
     }
-
-    /*
-    private boolean isSorted() {
-        return IntStream.range(0, zahlenfolge.size() - 1)
-                .allMatch( num -> zahlenfolge.get(num) <= zahlenfolge.get(num + 1));
-    }
-    */
 }

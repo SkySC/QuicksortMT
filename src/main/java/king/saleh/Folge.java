@@ -2,6 +2,7 @@ package king.saleh;
 
 import java.util.List;
 import java.util.concurrent.RecursiveTask;
+import java.util.stream.IntStream;
 
 public class Folge extends RecursiveTask<Folge> {
 
@@ -48,6 +49,11 @@ public class Folge extends RecursiveTask<Folge> {
     @Override
     public String toString() {
         return zahlenfolge.toString();
+    }
+    
+    public boolean isSorted() {
+        return IntStream.range(0, zahlenfolge.size() - 1)
+                .allMatch( num -> zahlenfolge.get(num) <= zahlenfolge.get(num + 1));
     }
     
     /**

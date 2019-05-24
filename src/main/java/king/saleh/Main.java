@@ -57,7 +57,7 @@ public class Main {
     }
 
     // Gibt eine Liste mit ganzzahligen Zufallszahlen zurück
-    private static List<Integer> generateRandomListOfLength(int lengthPerList) {
+    public static List<Integer> generateRandomListOfLength(int lengthPerList) {
         return new Random()
                 .ints(lengthPerList, 0, (int)Math.pow(2, 10)) // returns an IntStream
                 .boxed() // returns a Stream containing the Integer (input) values
@@ -73,11 +73,4 @@ public class Main {
         System.out.println("\n==> " + (opt.equals("MT") ? "Multi" : "Single")
                 + " Thread time consumed: " + consumedTime + " ns ~ " + (consumedTime / 1000000) + " ms\n");
     }
-
-    /*
-    private boolean isSorted() {
-        return IntStream.range(0, zahlenfolge.size() - 1)
-                .allMatch( num -> zahlenfolge.get(num) <= zahlenfolge.get(num + 1));
-    }
-    */
 }
