@@ -103,16 +103,25 @@ Die Effizienz des ForkJoinFrameworks kommt obendrauf dadurch zustande, dass sich
 
 Das Framework fordert den Entwickler lediglich dazu auf die Methode ```compute()``` aus der Superklasse ```RecursiveAction``` zu überschreiben. Sie definiert die Instruktionen bei der Ausführung jedes einzelnen __Thread-workers__.
 
+### Risiken von Multi-Threading
+
+Parallele Threads müssen häufig auf gemeinsame Ressourcen zugreifen. In solchen Fällen haben sich Threads abzustimmen bzw. zu __synchronisieren__, da es ansonsten zu unerwünschten Ergebnissen führen kann. Solche Gefahrenbereiche nennen sich __zeitkritische Abschnitte__ oder __kritische Abschnitte__. Die Handhabung solcher Abschnitte kann für den Entwickler teils schwieriger sein, da er nun komplexer Denken muss.
+
 ### Nutzen von Multi-Threading
 
-
+- Aufgaben die sich vllt. parallelsieren lassen
+Gerade bei großen Anwendungen, welche sich in parallele Aufgabenstrukturen trennen lassen, bringt der Einsatz von Multithreading spürbare Performanceschübe. Multithreading hilft dabei, die Kapazitäten des Rechners möglichst effizient und gleichverteilt zu nutzen, in dem es auf verschiedenen Kernen zur selben Zeit agiert. Möglichst einfach zu handhaben sind Threads genau dann, wenn sie voneinander unabhängige Aufgaben besitzen. Dies hat den Grund, dass sich die für den Thread benötigten Ressourcen meist nicht mit den anderer überschneiden. Ein Anwendungsbeispiel für das Multithreading sind Webserver. Diese müssen mehrere Anfragen von verschiedenen Usern zur selben Zeit beantworten. Ein weiteres Anwendungsbeispiel wären im allgemeinen GUI's. Begründet liegt dies darin, dass man bei rechenintensiven Aufgaben nicht den Rest der Applikation blockieren möchte. Man möchte dem Benutzer ein paralelles weiterarbeiten ermöglichen. Auch dann, wenn sich Aufgaben, wie in meinem Quicksort-Beispiel in kleinere Subaufgaben auftrennen lassen, kann Multithreading sinnvoll sein. Man arbeitet die Subaufgaben jeweils parallel mittels Threads ab und vervollständigt diese durch ein Anknüpfen wiederum zu einem Gesamtbild, welches als vollständiges gelöst ist. Es geht beim Multithreading im allgemeinen auch darum das System lebendiger erscheinen zu lassen.
 
 ## Der Nutzen von Lambdafunktionen
 
 ### Was sind Lambdafunktionen?
+
+Lambdafunktionen sind Teil der Funktionalen Programmierung. Die funktionale Programmierung unterscheidet sich hinsichtlich Durch Lambdafunktionen, lassen sich Funktionen bzw. ganze Ausdrücke als Parameter an andere Funktionen übergeben. 
 
 ### Wie sind Lambdafunktionen aufgebaut?
 
 ### Wie verwendet man Lambdafunktionen?
 
 ### Was nützen Lambdafunktionen?
+
+Vorab ist es wichtig zu erwähnen, dass Lambdafunktionen genau so ausdrucksstark ist wie 
