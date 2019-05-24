@@ -39,7 +39,7 @@ Das Pivotelement befindet sich nun bereits als sortiertes Element an der richtig
 
 ### Essenzielle Methoden
 
-- ```quicksort(Folge folge, int linkerIndex, int rechterIndex)```
+- ```quicksort(Folge folge, int ersterIndex, int letzterIndex)```
 
 Erhält die Folge, den linken Index als auch den rechten Index der Folge als Parameter.
 Überprüft wird mittels ```ersterIndex >= letzterIndex```, ob bereits bis zur letzten Zahl durchsortiert wurde.
@@ -101,18 +101,56 @@ Ist dies geschehen, wird zuerst die linke Teilfolge (Teilproblem) in den __ForkJ
 
 Die Effizienz des ForkJoinFrameworks kommt obendrauf dadurch zustande, dass sich die __Thread-worker__, sobald sie ihre Arbeit verrichtet haben gegenseitig Aufgaben abnehmen.
 
-Das Framework fordert den Entwickler lediglich dazu auf die Methode ```compute()``` aus der Superklasse ```RecursiveAction``` zu überschreiben. Sie definiert die Instruktionen bei der Ausführung jedes einzelnen __Thread-workers__.
+Das Framework fordert den Entwickler je nach Implementierung lediglich dazu auf die Methode ```compute()``` aus der Superklasse ```RecursiveAction``` bzw. ```RecursiveTask``` zu überschreiben. Sie definiert die Instruktionen bei der Ausführung jedes einzelnen __Thread-workers__.
+
+### Risiken von Multi-Threading
+
+Parallele Threads müssen häufig auf gemeinsame Ressourcen zugreifen. In solchen Fällen haben sich Threads abzustimmen bzw. zu __synchronisieren__, da es ansonsten zu unerwünschten Ergebnissen führen kann. Solche Gefahrenbereiche nennen sich __zeitkritische Abschnitte__ oder __kritische Abschnitte__. Die Handhabung solcher Abschnitte kann für den Entwickler teils schwieriger sein.
 
 ### Nutzen von Multi-Threading
 
+Gerade bei großen Anwendungen, welche sich in parallele Aufgabenstrukturen trennen lassen, bringt der Einsatz von Multithreading spürbare Performanceschübe. Multithreading hilft dabei, die Kapazitäten des Rechners möglichst effizient und gleichverteilt zu nutzen, in dem es auf verschiedenen Kernen zur selben Zeit agiert. Möglichst einfach zu handhaben sind Threads genau dann, wenn sie voneinander unabhängige Aufgaben besitzen. Dies hat den Grund, dass sich die für den Thread benötigten Ressourcen meist nicht mit den anderer überschneiden. Ein Anwendungsbeispiel für das Multithreading sind Webserver. Diese müssen mehrere Anfragen von verschiedenen Usern zur selben Zeit beantworten. Ein weiteres Anwendungsbeispiel wären im allgemeinen GUI's. Begründet liegt dies darin, dass man bei rechenintensiven Aufgaben nicht den Rest der Applikation blockieren möchte. Man möchte dem Benutzer ein paralelles weiterarbeiten ermöglichen. Auch dann, wenn sich Aufgaben, wie in meinem Quicksort-Beispiel in kleinere Subaufgaben auftrennen lassen, kann Multithreading sinnvoll sein. Man arbeitet die Subaufgaben jeweils parallel mittels Threads ab und vervollständigt diese durch ein Anknüpfen wiederum zu einem Gesamtbild, welches als vollständiges gelöst ist. Es geht beim Multithreading im allgemeinen auch darum, dass das System lebendiger und flexibler wird.
 
-
-## Der Nutzen von Lambdafunktionen
+## Lambdafunktionen
 
 ### Was sind Lambdafunktionen?
 
-### Wie sind Lambdafunktionen aufgebaut?
+Lambdafunktionen sind als Teil der funktionalen Programmierung bzw. deklarativen Programmierung seit Version 8 nun auch Bestandteil von Java. Die deklarative Programmierung beschäftigt sich im Kern mit ihren Funktionen. Unterschiede zur Objektorientierten Programmierung liegen hauptsächlich darin begründet, dass bei der OOP Objekterzeugungen möglich sind, welche bestimmte Zustände annehmen können. Bei der deklarativen Programmierung werden zustandslose Funktionen verwendet, welche mit Hilfe von konstanten Variablen agieren (Lambda-Funktionen). Durch Lambdafunktionen, lassen sich dann bspw. auch Funktionen bzw. ganze Ausdrücke als Parameter an andere Funktionen übergeben. Die Objekte der OOP bilden Zustände der realen Welt ab und verändern sich. Demnach müssen deren Variablen nicht konstant sein. Es folgt, dass deklarative Programme für dasselbe Ereignis immer dasselbe Ergebnis liefern im Gegensatz zur OOP.  
+
+### Was nützen Lambdafunktionen?
+
+Vorab ist es wichtig zu erwähnen, dass Lambdafunktionen genau so ausdrucksstark sind wie die Programmierausdrücke anderer Paradigmen. Durch das hintereinanderreihen von Lambdafähigen Funktionen lassen sich die Abarbeitungsstränge des Programmes besser nachvollziehen. Sehr nützlich ist dies zum Beispiel, wenn man die Verwendung unübersichtlicher innerer Klassen vermeiden möchte. Es dient deshalb zum einen der Übersichtlichkeit als auch der Verständlichkeit. Des Weiteren bringt die deklarative Programmierung auch Vorteile bei der parallelen Ausführung mit sich. Diese wird in der Hinsicht dadurch erleichert, dass bspw. im Stream Interface von Java, Funktionen enthalten sind, welche eine parallele Ausführung bereits implementieren. Darum muss sich der Entwickler in bestimmten Fällen nicht um eine Eigenimplementierung zur paralellen Ausführung kümmern. Er kann sich stattdessen weiterhin der eigentlichen Funktionalität widmen.
+
+Ein gutes Anwendungsbeispiel für Lambdafunktionen sind bspw. Softwaretests. Man möchte bei einer Eingabe vermeiden, dass dabei unterschiedliche Ergebnisse herauskommen.
+
+Die Parametertypen leitet der Java Compiler anhand des vorherhigen Ablauffstranges ab und setzt diese automatisch. Deshalb wird in Java im Gegensatz zu anderen Programmiersprachen auch bei Lambdafunktionen die Typsicherheit gewährleistet.
 
 ### Wie verwendet man Lambdafunktionen?
 
-### Was nützen Lambdafunktionen?
+Wenn es Methodenargumente gibt, werden für diese Bezeichner verwendet, ansonsten werden leere runde Klammern angegeben. Dem Bezeichner(n) folgt der ```->``` Operator, welcher auf die Implementierung verweist.
+
+```(firstArg, secondArg) -> { firstStatement(); secondStatement(); ... }```
+
+__Beispiel:__
+
+```button.addActionListener(e -> { System.out.println("Clicked"); } );```
+
+Folgt dem Pfeiloperator ein einziger Methodenaufruf, dürfen die geschweiften Klammern weggelassen werden.
+
+```button.addActionListener(e -> System.out.println("Clicked") );```
+
+__Weiteres Beispiel:__
+
+```BinaryOperator<Integer> isEven = (num1, num2) -> IntStream.range(num1, num2).filter( t -> (num1 + num2) % 2 == 0).boxed().mapToInt(intNum -> intNum).sum();``` 
+
+```System.out.println(isEven.apply(0, 20));```
+
+Summiert alle geraden Zaheln von 1 bis 20 miteinander und gibt das Gesamtergebnis der summierten Folgen aus.
+
+#### Was ist bei Lambdafunktionen in Java zu beachten?
+
+Die Argumente, auf die sich der Teil nach dem Pfeil-Operator bezieht müssen konstant bzw. effektiv konstant sein. Mit effektiv konstant ist gemeint, dass die Variable ihren Wert nach der Initialisierung nicht mehr verändert. Dabei muss das Schlüsselwort __final__ nicht explizit angegeben werden. Dies dient dazu möglichst Seiteneffekte zu vermeiden.
+
+### Nachteile von Lambdafunktionen
+
+Ein Nachteil besteht bei der Programmierung von rekursiven Ausdrücken. Eine rekursive Programmierung ist zwar möglich, sollte jedoch von der jeweiligen zu verarbeitenden Datenmenge abhängig gemacht werden. Die Daten, welche rekursiv als Parameter übergeben werden, stapeln sich für jeden neuen Aufruf auf dem Stack. Da er nur eine geringe Speicherkapazität bietet, kann dieser schnell überlaufen. Es resultieren Speicherüberläufe und mögliche Programmfehler, welche wiederum Sicherheitslücken darstellen.
