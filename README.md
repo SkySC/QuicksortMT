@@ -129,7 +129,7 @@ Die Parametertypen leitet der Java Compiler anhand des vorherhigen Ablauffstrang
 
 Wenn es Methodenargumente gibt, werden für diese Bezeichner verwendet, ansonsten werden leere runde Klammern angegeben. Dem Bezeichner(n) folgt der ```->``` Operator, welcher auf die Implementierung verweist.
 
-``` (firstArg, secondArg) -> { firstStatement(); secondStatement(); ... }
+```(firstArg, secondArg) -> { firstStatement(); secondStatement(); ... }```
 
 __Beispiel:__
 
@@ -141,12 +141,9 @@ Folgt dem Pfeiloperator ein einziger Methodenaufruf, dürfen die geschweiften Kl
 
 __Weiteres Beispiel:__
 
-```BinaryOperator<Integer> isEven = (num1, num2) ->                                               IntStream.range(num1, num2)
-          .filter( t -> (num1 + num2) % 2 == 0)
-          .boxed()
-          .mapToInt(intNum -> intNum).sum(); 
+```BinaryOperator<Integer> isEven = (num1, num2) -> IntStream.range(num1, num2).filter( t -> (num1 + num2) % 2 == 0).boxed().mapToInt(intNum -> intNum).sum();``` 
 
-System.out.println(isEven.apply(0, 20));```
+```System.out.println(isEven.apply(0, 20));```
 
 Summiert alle geraden Zaheln von 1 bis 20 miteinander und gibt das Gesamtergebnis der summierten Folgen aus.
 
