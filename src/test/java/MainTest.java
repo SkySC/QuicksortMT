@@ -2,20 +2,20 @@ import king.saleh.Folge;
 import king.saleh.Main;
 import king.saleh.QuickSort;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
+import king.saleh.QuickSortMultiThreaded;
+import org.junit.jupiter.api.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MainTest {
     
-    private Folge singleFolge, multiFolge;
-
+    private static Folge singleFolge, multiFolge;
+    
     @Test
     void testMain()
     {
@@ -34,34 +34,26 @@ class MainTest {
         another.implementation.Main.main(new String[] {});
     }
     
-    @BeforeEach
-    void erstelleTestFolgen() {
+    @Test
+    void erstelleUndPruefeTestFolgen() {
     
         System.out.println("Single Threaded Test:\n");
         
-        this.singleFolge = QuickSort.quicksort(
-                new Folge(
-                        new ArrayList<Integer>(Main.generateRandomListOfLength(10))));
+        singleFolge = QuickSort.quicksort(new Folge(
+                new ArrayList<Integer>(Main.generateRandomListOfLength(15))
+        ));
         
-        System.out.println("Sortierte Folge\t" + singleFolge.toString() + "\n");
+        System.out.println("Sortierte Folge\t" + singleFolge.toString());
+        if(singleFolge.isSorted()) System.out.println("Erfolgreich sortiert!\n");
     
         System.out.println("Multi Threaded Test:\n");
         
-        this.multiFolge = new ForkJoinPool(Runtime.getRuntime().availableProcessors())
-                .invoke(new Folge(
-                        Main.generateRandomListOfLength(10)));
+        multiFolge = Main.fjP.invoke(new Folge(
+                Main.generateRandomListOfLength(15)
+        ));
         
-        System.out.println("Sortierte Folge\t" + multiFolge.toString() + "\n");
-    }
-    
-    @Test
-    void singleFolgeIstSortiert() {
-        Assertions.assertTrue(singleFolge.isSorted());
-    }
-    
-    @Test
-    void multiFolgeIstSortiert() {
-        Assertions.assertTrue(multiFolge.isSorted());
+        System.out.println("Sortierte Folge\t" + multiFolge.toString());
+        if(singleFolge.isSorted()) System.out.println("Erfolgreich sortiert!");
     }
     
     @AfterEach
