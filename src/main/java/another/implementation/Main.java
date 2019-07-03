@@ -1,5 +1,6 @@
 package another.implementation;
 
+import king.saleh.QuickSort;
 import king.saleh.QuickSortMultiThreaded;
 
 import java.util.Arrays;
@@ -31,19 +32,19 @@ public class Main {
     private static void printAndSortListWithSingleThreadedAndMultithreaded(List<Integer> randomList, int numberOfThreads)
             throws InterruptedException {
     
+        QuickSortMultiThreaded.messages.clear();
         System.out.println("Multi Threaded 2: \n");
         
         int[] zuSortierendeFolge = new int[lengthOfList];
         for(int i = 0; i < zuSortierendeFolge.length; i++){
             zuSortierendeFolge[i] = (int)(Math.random() * 1000);
         }
-
+        
         System.out.println("Initial\t\t" + Arrays.toString(zuSortierendeFolge) + "\n");
         
         Thread worker = new Thread(new QuickSortMultiThreaded2(zuSortierendeFolge, 0,
                 zuSortierendeFolge.length - 1, true));
-    
-        QuickSortMultiThreaded.messages.clear();
+        
         long startTimeMT = System.nanoTime();
         
         worker.start();
