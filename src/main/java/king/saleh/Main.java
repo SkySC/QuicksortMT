@@ -46,10 +46,7 @@ public class Main {
         
         System.out.println("Multi Threaded: \n");
         
-        //Folge copy = new Folge(new ArrayList<Integer>(randomList));
-        
         long startTimeMT = System.nanoTime();
-        //Folge result = fjP.invoke(copy);
         Folge result = fjP.invoke(new Folge(new ArrayList<>(randomList)));
 
         // DEBUG Ausgabe
