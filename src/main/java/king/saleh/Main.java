@@ -7,15 +7,17 @@ import java.util.stream.Collectors;
 import java.util.concurrent.ForkJoinPool;
 
 public class Main {
-
-    private static final int lengthOfList = 10;
+    
+    private static final int lengthOfList = 20;
+    private static final int THREAD_CAPACITY = Runtime.getRuntime().availableProcessors();
+    
+    public static ForkJoinPool fjP = new ForkJoinPool(THREAD_CAPACITY);
 
     public static void main(String[] args) {
         /**
          * 1. Maximale Anzahl an Threads auslesen
          * 2. Mögliche Anzahl an Threads dem ThreadPool zuweisen
          */
-        final int THREAD_CAPACITY = Runtime.getRuntime().availableProcessors();
 
         System.out.println("Moegliche Anzahl an Threads: " + THREAD_CAPACITY + "\n");
 
@@ -28,9 +30,10 @@ public class Main {
     }
 
     private static void printAndSortListWithSingleThreadedAndMultithreaded(List<Integer> randomList, int numberOfThreads) {
-
+    
+        QuickSortMultiThreaded.messages.clear();
         System.out.println("Single Threaded: \n");
-
+        
         long startTimeST = System.nanoTime();
         Folge folge1 = QuickSort.quicksort(new Folge(new ArrayList<Integer>(randomList)));
 
@@ -43,11 +46,11 @@ public class Main {
         
         System.out.println("Multi Threaded: \n");
         
-        Folge copy = new Folge(new ArrayList<Integer>(randomList));
-        ForkJoinPool fjP = new ForkJoinPool(numberOfThreads);
-    
+        //Folge copy = new Folge(new ArrayList<Integer>(randomList));
+        
         long startTimeMT = System.nanoTime();
-        Folge result = fjP.invoke(copy);
+        //Folge result = fjP.invoke(copy);
+        Folge result = fjP.invoke(new Folge(new ArrayList<>(randomList)));
 
         // DEBUG Ausgabe
         System.out.println(QuickSortMultiThreaded.messages.stream().collect(Collectors.joining("\n")));
